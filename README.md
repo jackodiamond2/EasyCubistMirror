@@ -1,14 +1,4 @@
-# Chainer implementation of "Perceptual Losses for Real-Time Style Transfer and Super-Resolution"
-Fast artistic style transfer by using feed forward network.
-
-<img src="https://raw.githubusercontent.com/yusuketomoto/chainer-fast-neuralstyle/master/sample_images/style.jpg" height="200px">
-
-<img src="https://raw.githubusercontent.com/yusuketomoto/chainer-fast-neuralstyle/master/sample_images/tubingen.jpg" height="200px">
-<img src="https://raw.githubusercontent.com/yusuketomoto/chainer-fast-neuralstyle/master/sample_images/output.jpg" height="200px">
-
-- input image size: 512x384
-- process time(CPU): 1.954sec (Core i7-5930K)
-- process time(GPU): 0.398sec (GPU TitanX)
+# Simple implementation of Cubist mirror
 
 ## Requirement
 - [Chainer](https://github.com/pfnet/chainer)
@@ -17,19 +7,23 @@ $ pip install chainer
 ```
 
 ## Prerequisite
-Download VGG16 model and convert it into smaller file so that we use only the convolutional layers which are 10% of the entire model.
+Clone this repository
+Download VGG16 model (http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_16_layers.caffemodel) and save it in the root folder
+run setup_model.sh file using the following command
 ```
 sh setup_model.sh
 ```
 
 ## Train
-Need to train one image transformation network model per one style target.
-According to the paper, the models are trained on the [Microsoft COCO dataset](http://mscoco.org/dataset/#download).
+you can train one image transformation network model per one style target.
+or you can use the models provided here.
+use following command to train. 
 ```
 python train.py -s <style_image_path> -d <training_dataset_path> -g 0
 ```
 
 ## Generate
+use following line to generate images
 ```
 python generate.py <input_image_path> -m <model_path> -o <output_image_path>
 ```
@@ -40,14 +34,19 @@ This repo has a pretrained model which was trained with "The starry night" by "V
 python generate.py sample_images/tubingen.jpg -m models/starrynight.model -o sample_images/output.jpg
 ```
 
-## Difference from paper
-- Convolution kernel size 4 instead of 3.
-- Not sure whether adding/subtracting mean image is needed or not. In this implementation mean image subtraction is done before input image is fed into "image transformation network".
+##Cubist Mirror
+  This work belongs to its developers. I took the project from yusuketomoto's repositry (https://github.com/yusuketomoto/chainer-fast-neuralstyle). i found Gene Kogan's work Cubist Mirror (https://github.com/genekogan/CubistMirror) hard to implement. So i worte a simple script which use webcam to click picture and feeds it to generate.py and finally the image is viewed on safari (if you are on windows then you have to download safari first to use this). The size of cubes in the images can be changed by editing the resolution in cubstmrror.sh
+  run cubstmrror.sh for cubist mirror
+```
+sh cubstmrror.sh
+```
+  
 
 ## License
 MIT
 
 ## Reference
+  
 - [Perceptual Losses for Real-Time Style Transfer and Super-Resolution](http://arxiv.org/abs/1603.08155)
 
 Codes written in this repository based on following nice works, thanks to the author.
